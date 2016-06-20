@@ -158,11 +158,13 @@ class WMSRequest(BaseRequest):
         pass
 
     def adapt_params_to_version(self):
-        params = self.params.copy()
+        params = WMSMapRequestParams()
         for key, value in iteritems(self.fixed_params):
-            params[key] = value
-        if 'styles' not in params:
-            params['styles'] = ''
+            params[key.upper()] = value
+        for key, value in self.params.iteritems():
+            params[key.upper()] = value
+        if 'STYLES' not in params:
+            params['STYLES'] = ''
         return params
 
     @property
